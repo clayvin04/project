@@ -2,7 +2,7 @@ from flask import Flask,render_template,request,redirect,url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase,relationship, DeclarativeBase, Mapped, mapped_column
 from flask_bootstrap import Bootstrap5
-from flask_login import UserMixin, login_user, LoginManager, current_user, logout_user
+from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from forms import SingInForm, LogInForm
 from sqlalchemy import Integer, String, Text
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -87,11 +87,16 @@ def singin():
     return render_template("singin.html" ,form = form)
 
 @app.route('/contact')
+@login_required
 def contact():
     return render_template("contact.html")
 
 
+@app.route('/logout')
 
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
 
 
 
